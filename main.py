@@ -3,6 +3,8 @@ from paddle import Paddle
 from ball import Ball
 import time
 
+UP_BOTTOM_BOUNDS = 280
+
 # TODO : Create Game Scene ✔
 # Screen configs
 screen = Screen()
@@ -26,7 +28,7 @@ screen.onkey(paddle_cpu.move_down, "s")
 ball = Ball()
 is_game_on = True
 
-# TODO : Collision with Elements (Ball, Paddles, Screen)
+
 # TODO : Create Score UI and Track Score
 
 
@@ -36,4 +38,12 @@ while is_game_on:
     screen.update()
     ball.move()
 
+    # TODO : Collision with Elements (Ball, Paddles)
+    # Detection between walls and ball
+    if ball.ycor() > UP_BOTTOM_BOUNDS or ball.ycor() < -UP_BOTTOM_BOUNDS:
+        ball.bounce_y()
+
+    # Detection between ball and paddles
+    if ball.distance(paddle_player) < 50 and ball.xcor() > 320 or ball.distance(paddle_cpu) < 50 and ball.xcor() < -320:
+        ball.bounce_x()
 screen.exitonclick()
